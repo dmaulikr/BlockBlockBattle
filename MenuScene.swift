@@ -1,8 +1,8 @@
 //
-//  GameScene.swift
+//  MenuScene.swift
 //  block
 //
-//  Created by Tomoyuki Hayakawa on 2017/03/20.
+//  Created by Tomoyuki Hayakawa on 2017/04/18.
 //  Copyright © 2017年 Tomoyuki Hayakawa. All rights reserved.
 //
 
@@ -11,7 +11,7 @@ import GameplayKit
 import CoreMotion
 import UIKit
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class MenuScene: SKScene, SKPhysicsContactDelegate {
     // ボールノード
     var ball : SKSpriteNode!
     // パッドノード
@@ -55,7 +55,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         ball.physicsBody?.applyImpulse(CGVector(dx: vecXo, dy: vecYo))
-     
+        
         let border = SKPhysicsBody(edgeLoopFrom: (view.scene?.frame)!)
         border.friction = 0
         self.physicsBody = border
@@ -67,6 +67,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playerMotionManager.accelerometerUpdateInterval = 0.02
         
         startAccelerometer()
+    }
+    
+    // 画面タッチ
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch: AnyObject in touches {
+            let location = touch.location(in: self)
+            let touchedNode = self.atPoint(location)
+            
+            //game startをタップするとゲームを始めるようにする
+            if (touchedNode.name != nil) {
+                if (touchedNode.name == "start"){
+                    let newScene = GameScene(size: self.scene!.size)
+                    newScene.scaleMode = SKSceneScaleMode.aspectFill
+                    self.view!.presentScene(newScene)
+                }
+            }
+        }
     }
     
     // 加速度を使ったバーの操作
