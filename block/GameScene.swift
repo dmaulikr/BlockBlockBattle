@@ -20,6 +20,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerMotionManager : CMMotionManager!
     var speedX : Double = 0.0
     
+    var vecXo : Int = 0
+    var vecYo : Int = 0
+    
     // 画面サイズの取得
     let screenSize = UIScreen.main.bounds.size
     
@@ -32,7 +35,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball = self.childNode(withName: "ball") as! SKSpriteNode
         pad = self.childNode(withName: "pad") as! SKSpriteNode
         
-        ball.physicsBody?.applyImpulse(CGVector(dx: 50, dy:50))
+        // ボールの最初の方向
+        let rand = arc4random() % 4
+        switch rand {
+        case 0:
+            vecXo = 50
+            vecYo = 50
+        case 1:
+            vecXo = 50
+            vecYo = -50
+        case 2:
+            vecXo = -50
+            vecYo = 50
+        case 3:
+            vecXo = -50
+            vecYo = -50
+        default:
+            break
+        }
+        print(vecXo, vecYo)
+        ball.physicsBody?.applyImpulse(CGVector(dx: vecXo, dy: vecYo))
      
         let border = SKPhysicsBody(edgeLoopFrom: (view.scene?.frame)!)
         border.friction = 0
