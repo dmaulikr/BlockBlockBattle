@@ -8,82 +8,126 @@
 
 import SpriteKit
 import GameplayKit
+import CoreMotion
+import UIKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
+    // ボールノード
+    var ball : SKSpriteNode!
+    // パッドノード
+    var pad : SKSpriteNode!
     
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
+    var playerMotionManager : CMMotionManager!
+    var speedX : Double = 0.0
+    
+    // 画面サイズの取得
+    let screenSize = UIScreen.main.bounds.size
     
     override func didMove(to view: SKView) {
         
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
-        }
+        // 画面端に物理ボディを設定する
+        //self.physicsBody = SKPhysicsBody(edgeLoopFrom: self.frame)
         
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
+        // ノードを取得
+        ball = self.childNode(withName: "ball") as! SKSpriteNode
+        pad = self.childNode(withName: "pad") as! SKSpriteNode
         
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
+        ball.physicsBody?.applyImpulse(CGVector(dx: 50, dy:50))
+     
+        let border = SKPhysicsBody(edgeLoopFrom: (view.scene?.frame)!)
+        border.friction = 0
+        self.physicsBody = border
+        
+        self.physicsWorld.contactDelegate = self
+        
+        // MotionManagerを生成
+        playerMotionManager = CMMotionManager()
+        playerMotionManager.accelerometerUpdateInterval = 0.02
+        
+        startAccelerometer()
+    }
+    
+// タッチでパッドを移動
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        for touch  in touches {
+//            let touchLocation = touch.location(in: self)
+//            pad.position.x = touchLocation.x
+//        }
+//    }
+//    
+//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        for touch in touches {
+//            let touchLocation = touch.location(in: self)
+//            pad.position.x = touchLocation.x
+//        }
+//    }
+    
+    func startAccelerometer() {
+        // 加速度を取得する
+        let handler : CMAccelerometerHandler = {(CMAccelerometerData:CMAccelerometerData?, error:Error?) -> Void in
+            self.speedX += CMAccelerometerData!.acceleration.x
+            // プレイヤーの中心位置を設定
+            var posX = self.pad.position.x + (CGFloat(self.speedX) * 3.5)
             
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(M_PI), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
+            // padの位置を修正
+            if posX <= -self.screenSize.width + (self.pad.frame.width / 2) {
+                self.speedX = 0
+                posX = -self.screenSize.width + (self.pad.frame.width / 2)
+            }
+            if posX >= self.screenSize.width - (self.pad.frame.width / 2) {
+                self.speedX = 0
+                posX = self.screenSize.width - (self.pad.frame.width / 2)
+            }
+            self.pad.position.x = posX
         }
+        // 加速度の開始
+        playerMotionManager.startAccelerometerUpdates(to: OperationQueue.main, withHandler: handler)
     }
-    
-    
-    func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
-        }
-    }
-    
-    func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
+    // バーとボールの衝突判定
+    func didBegin(_ contact: SKPhysicsContact) {
+        
+        // パーティクルの作成
+        let sparkParticle = SKEffectNode(fileNamed: "sparkParticle.sks")
+        let magicParticle = SKEffectNode(fileNamed: "magicParticle.sks")
+        
+        // 接触座標にパーティクルを放出するようにする
+        sparkParticle!.position = CGPoint(x:contact.contactPoint.x, y:contact.contactPoint.y)
+        magicParticle!.position = CGPoint(x:contact.contactPoint.x, y:contact.contactPoint.y)
+        // 0.5秒ごシーンから消すアクションを作成する
+        let spark1 = SKAction.wait(forDuration: 0.5)
+        let spark2 = SKAction.removeFromParent()
+        let sparkAll = SKAction.sequence([spark1, spark2])
+        
+        let magic1 = SKAction.wait(forDuration: 0.5)
+        let magic2 = SKAction.removeFromParent()
+        let magicAll = SKAction.sequence([magic1, magic2])
+        
+        self.addChild(magicParticle!)
+        
+        // ぶつかった物体を格納
+        let bodyAName = contact.bodyA.node?.name
+        let bodyBName = contact.bodyB.node?.name
+        
+        // ぶつかった物体がボールとバーの時
+        if bodyAName == "ball" && bodyBName == "bar" || bodyAName == "bar" && bodyBName == "ball"{
+            if bodyAName == "bar" {
+                contact.bodyA.node?.removeFromParent()
+                // パーティクルをシーンに追加する
+                self.addChild(sparkParticle!)
+                //アクションを実行する
+                sparkParticle!.run(sparkAll)
+            } else if bodyBName == "bar" {
+                contact.bodyB.node?.removeFromParent()
+                // パーティクルをシーンに追加する
+                self.addChild(sparkParticle!)
+                //アクションを実行する
+                sparkParticle!.run(sparkAll)
+            }
         }
         
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+        magicParticle!.run(magicAll)
+        
     }
     
     
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-    }
 }
