@@ -15,12 +15,11 @@
 		70484A471E7FEE8A0034EA2C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70484A451E7FEE8A0034EA2C /* Main.storyboard */; };
 		70484A491E7FEE8A0034EA2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70484A481E7FEE8A0034EA2C /* Assets.xcassets */; };
 		70484A4C1E7FEE8A0034EA2C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70484A4A1E7FEE8A0034EA2C /* LaunchScreen.storyboard */; };
-		70EAB4F61EA52A0700AB478B /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EAB4F51EA52A0700AB478B /* MenuScene.swift */; };
-		70EAB4F81EA52A2A00AB478B /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 70EAB4F71EA52A2A00AB478B /* MenuScene.sks */; };
 		70F99A831E8953F9001ECDC3 /* sparkParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 70F99A821E8953F9001ECDC3 /* sparkParticle.sks */; };
 		70F99A851E8957CF001ECDC3 /* magicParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 70F99A841E8957CF001ECDC3 /* magicParticle.sks */; };
 		8EE21C3E1EA35BA50021AEC3 /* blockUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE21C3D1EA35BA50021AEC3 /* blockUITests.swift */; };
 		8EE21C4C1EA35BCC0021AEC3 /* blockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE21C4B1EA35BCC0021AEC3 /* blockTests.swift */; };
+		8EEC6ABE1EAAFBC500BA5C2E /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EEC6ABD1EAAFBC500BA5C2E /* SpriteKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,8 +50,6 @@
 		70484A481E7FEE8A0034EA2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		70484A4B1E7FEE8A0034EA2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		70484A4D1E7FEE8A0034EA2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		70EAB4F51EA52A0700AB478B /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuScene.swift; path = ../MenuScene.swift; sourceTree = "<group>"; };
-		70EAB4F71EA52A2A00AB478B /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		70F99A821E8953F9001ECDC3 /* sparkParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = sparkParticle.sks; sourceTree = "<group>"; };
 		70F99A841E8957CF001ECDC3 /* magicParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = magicParticle.sks; sourceTree = "<group>"; };
 		8EE21C3B1EA35BA50021AEC3 /* blockUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = blockUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +58,7 @@
 		8EE21C491EA35BCC0021AEC3 /* blockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = blockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EE21C4B1EA35BCC0021AEC3 /* blockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = blockTests.swift; sourceTree = "<group>"; };
 		8EE21C4D1EA35BCC0021AEC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8EEC6ABD1EAAFBC500BA5C2E /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EEC6ABE1EAAFBC500BA5C2E /* SpriteKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +94,7 @@
 				8EE21C3C1EA35BA50021AEC3 /* blockUITests */,
 				8EE21C4A1EA35BCC0021AEC3 /* blockTests */,
 				70484A391E7FEE8A0034EA2C /* Products */,
+				8EEC6ABC1EAAFBC500BA5C2E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -113,9 +113,7 @@
 			children = (
 				70484A3B1E7FEE8A0034EA2C /* AppDelegate.swift */,
 				70484A3D1E7FEE8A0034EA2C /* GameScene.sks */,
-				70EAB4F71EA52A2A00AB478B /* MenuScene.sks */,
 				70484A3F1E7FEE8A0034EA2C /* Actions.sks */,
-				70EAB4F51EA52A0700AB478B /* MenuScene.swift */,
 				70484A411E7FEE8A0034EA2C /* GameScene.swift */,
 				70F99A821E8953F9001ECDC3 /* sparkParticle.sks */,
 				70F99A841E8957CF001ECDC3 /* magicParticle.sks */,
@@ -144,6 +142,14 @@
 				8EE21C4D1EA35BCC0021AEC3 /* Info.plist */,
 			);
 			path = blockTests;
+			sourceTree = "<group>";
+		};
+		8EEC6ABC1EAAFBC500BA5C2E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8EEC6ABD1EAAFBC500BA5C2E /* SpriteKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,7 +269,6 @@
 				70484A4C1E7FEE8A0034EA2C /* LaunchScreen.storyboard in Resources */,
 				70484A401E7FEE8A0034EA2C /* Actions.sks in Resources */,
 				70F99A831E8953F9001ECDC3 /* sparkParticle.sks in Resources */,
-				70EAB4F81EA52A2A00AB478B /* MenuScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +294,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				70484A421E7FEE8A0034EA2C /* GameScene.swift in Sources */,
-				70EAB4F61EA52A0700AB478B /* MenuScene.swift in Sources */,
 				70484A441E7FEE8A0034EA2C /* GameViewController.swift in Sources */,
 				70484A3C1E7FEE8A0034EA2C /* AppDelegate.swift in Sources */,
 			);
@@ -440,11 +444,12 @@
 		70484A511E7FEE8A0034EA2C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 7BYUJ689J5;
 				INFOPLIST_FILE = block/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.litech.block-block-battle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -455,11 +460,12 @@
 		70484A521E7FEE8A0034EA2C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 7BYUJ689J5;
 				INFOPLIST_FILE = block/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.litech.block-block-battle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
